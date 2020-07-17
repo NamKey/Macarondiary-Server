@@ -1,7 +1,8 @@
 <?
-    include './db_connection.php'; //DB Connection setting 
-    include './fun_macarondiary.php'; //Global function
     
+    // include './db_connection.php'; //DB Connection setting 
+    include './fun_macarondiary.php'; //Global function
+    ini_set('display_errors',1);
     $requri = $_SERVER['REQUEST_URI'];    
     $uri = explode('/',parse_url($requri,PHP_URL_PATH));    
     
@@ -15,13 +16,25 @@
     $reqMeth = $_SERVER['REQUEST_METHOD'];
     if(checkReqMethod($reqMeth)){
         require_once 'macaron_api.php';
+        switch($reqMeth){
+            case 'GET':{
+                readDiary($uri);
+                break;
+            }
+            case 'POST':{
+                writeDiary($uri);
+                break;
+            }
+            case 'PUT':{
+                
+                break;
+            }
+            case 'DELETE':{
+                break;
+            }            
+        }
     }else{
         header("HTTP/1.1 405 Wrong Request Method");
         exit();
-    }
-
-    //
-    disp($uri[1]);
-    disp($uri[2]);
-    disp($uri[3]);
+    }   
 ?>
